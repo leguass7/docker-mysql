@@ -1,5 +1,6 @@
 
 <img src="https://www.vultr.com/favicon/favicon-32x32.png?v=1"> [vultr.com](https://www.vultr.com/?ref=8956372-8H)
+
 :point_up_2: :point_up_2: :point_up_2: :point_up_2: Servidor **bom** e *barato*.
 
 # docker-mysql
