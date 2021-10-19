@@ -10,7 +10,7 @@ max_connect_errors = 1000000
 # InnoDB Settings
 default_storage_engine          = InnoDB
 innodb_buffer_pool_instances    = 2        # Use 1 instance per 1GB of InnoDB pool size
-innodb_buffer_pool_size         = 1128M    # Use up to 70-80% of RAM
+innodb_buffer_pool_size         = 1310M    # Use up to 70-80% of RAM
 innodb_file_per_table           = 1
 innodb_flush_log_at_trx_commit  = 0
 innodb_flush_method             = O_DIRECT
