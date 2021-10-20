@@ -25,6 +25,19 @@ services:
     volumes:
       - mysql8_data:/var/lib/mysql
       - ./custom:/etc/mysql/conf.d
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '8m'
+        max-file: '3'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.98'
+          memory: 1920M
+        reservations:
+          cpus: '0.5'
+          memory: 1G
 
 volumes:
   mysql8_data:
