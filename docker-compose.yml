@@ -33,7 +33,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.98'
+          cpus: '0.92'
           memory: 1920M
         reservations:
           cpus: '0.5'

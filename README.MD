@@ -43,15 +43,48 @@ build: ```docker-compose up -d --build```
 **Exemplo:**
 
 ```yaml
- network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    ens7:
-      mtu: 1450
-      dhcp4: no
-      addresses: [10.39.96.4/16]
+  network:
+    version: 2
+    renderer: networkd
+    ethernets:
+      ens7:
+        mtu: 1450
+        dhcp4: no
+        addresses: [10.39.96.4/16]
 
 ```
 
 ```netplan apply```
+
+## 4 - Recursos limitados
+Por padrão, um contêiner não tem restrições de recursos e pode usar tanto de um determinado recurso quanto o planejador de kernel do host permitir. É importante não permitir que um contêiner em execução consuma muita memória da máquina host. Em hosts Linux, se o kernel detecta que não há memória suficiente para executar funções importantes do sistema, ele lança um **OOME**, ou **Out Of Memory Exception**, e começa a matar processos para liberar memória, incluindo **Docker** e outros aplicativos importantes.
+
+### Faça caso `docker info` resulte em `No swap limit support`
+1) Edite o arquivo `/etc/default/grub`. Adicione ou edite a `GRUB_CMDLINE_LINUX` linha para adicionar os dois pares de valores-chave a seguir: 
+  - `GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"`
+
+2) Atualize e reinicie o sistema
+  - ```$ sudo update-grub```
+  - ```$ sudo reboot```
+
+
+3) [docker-compose.yml](docker-compose.yml)
+
+```yaml
+deploy:
+  resources:
+    limits:
+      cpus: '0.92'
+      memory: 1920M #server com 2Gb de RAM
+    reservations: #desnecessárias para servidor dedicado
+      cpus: '0.5'
+      memory: 1G
+    
+```
+
+```sdsd```
+
+### Referências
+[docker config](https://docs.docker.com/config/containers/resource_constraints/)
+[docker engine](https://docs.docker.com/engine/install/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities)
+
