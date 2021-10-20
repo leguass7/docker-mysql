@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Iniciar servidor mysql
+# Iniciar servidor
 # 
 #
 
@@ -22,6 +22,6 @@ echo "Atualizando imagem"
 docker-compose pull
 
 echo "Iniciar docker-compose"
-docker-compose -f "docker-compose.yml" up -d
+docker-compose -f "docker-compose.yml" up -d --build
 
 exit 0
