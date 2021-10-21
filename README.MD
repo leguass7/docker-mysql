@@ -99,6 +99,10 @@ importando arquivos:
 ```$ cd ~/docker-mysql/provision/```
 ```$ find . -name '*.sql' | awk '{ print "source",$0 }' | mysql --batch -u root -p <database_name>```
 
+### SSH - subindo arquivos dump
+
+```scp remote_user@remote_host:~/provision/ /path/to/local/provision```
+
 ### Referências
 [docker config](https://docs.docker.com/config/containers/resource_constraints/)
 [docker engine](https://docs.docker.com/engine/install/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities)
