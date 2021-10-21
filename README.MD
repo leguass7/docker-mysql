@@ -117,20 +117,20 @@ Quando se trata de carregamento em massa de tabelas InnoDB, uma das configuraç�
 
 Cada vez que uma página de 16K é gravada em uma tabela InnoDB ou log de transações, a página é gravada primeiro no buffer de gravação dupla. Tudo que você precisa fazer é desativá-lo, carregar seus dados e reativá-lo.
 
-1) Desativar desligamento rápido
+**1) Desativar desligamento rápido**
 ```sql
 SET GLOBAL innodb_fast_shutdown=0
 ```
 
-2) Reinicie o mysql sem o buffer de gravação dupla
+**2) Reinicie o mysql sem o buffer de gravação dupla**
 
 ```$ service mysql restart --innodb-doublewrite=0```
 
-3) Carregue os dados InnoDB
+**3) Carregue os dados InnoDB**
 
 ```$ mysql -u user -p database_name < dump-table-file.sql```
 
-4) Reinicie o mysql
+**4) Reinicie o mysql**
 
 ```$ service mysql restart```
 
