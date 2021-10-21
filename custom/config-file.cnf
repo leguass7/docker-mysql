@@ -28,6 +28,7 @@ innodb_write_io_threads         = 64
 bulk_insert_buffer_size         = 16M
 join_buffer_size                = 16M
 # sort_buffer_size=4M
+slow_query_log                  = 1
 
 # Connection Settings
 max_connections                 = 100   # UPD
