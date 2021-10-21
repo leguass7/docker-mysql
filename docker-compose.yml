@@ -34,10 +34,10 @@ services:
       resources:
         limits:
           #cpus: '0.92'
-          memory: 1920M
+          memory: 1786M
         reservations:
           #cpus: '0.5'
-          memory: 1G
+          memory: 768M
 
 volumes:
   mysql8_data:
