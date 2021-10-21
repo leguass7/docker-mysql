@@ -87,6 +87,14 @@ services:
     #...
 ```
 
+### Verificando memória disponível (Ubuntu)
+Formas de verificando memória disponível para configuração de limites do docker:
+  - a) ```$ free -m```
+  - b) ```$ htop``` (```$ sudo apt install htop```)
+  - c) ```$ top```
+  - d) ```$ vmstat -s```
+
+
 ### Restaurar backup (mysqldump files)
 **Cenário:**
 Volume do docker compartilhando diretório com arquivos dump (*.sql)
