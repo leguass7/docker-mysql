@@ -59,17 +59,17 @@ build: ```docker-compose up -d --build```
 ## 4 - Recursos limitados
 Por padrão, um contêiner não tem restrições de recursos e pode usar tanto de um determinado recurso quanto o planejador de kernel do host permitir. É importante não permitir que um contêiner em execução consuma muita memória da máquina host. Em hosts Linux, se o kernel detecta que não há memória suficiente para executar funções importantes do sistema, ele lança um **OOME**, ou **Out Of Memory Exception**, e começa a matar processos para liberar memória, incluindo **Docker** e outros aplicativos importantes.
 
-### Faça caso `docker info` resulte em `No swap limit support`
+**Faça caso** `docker info` resulte em `No swap limit support`
 1) Edite o arquivo `/etc/default/grub`. Adicione ou edite a `GRUB_CMDLINE_LINUX` linha para adicionar os dois pares de valores-chave a seguir: 
-  - `GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"`
+   - `GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"`
 
 2) Atualize e reinicie o sistema
-  - ```$ sudo update-grub```
-  - ```$ sudo reboot```
+   - ```$ sudo update-grub```
+   - ```$ sudo reboot```
 
 
 3) Docker compose
-veja: [docker-compose.yml](docker-compose.yml)
+   - veja: [docker-compose.yml](docker-compose.yml)
 
 **Exemplo:**
 
@@ -87,7 +87,7 @@ services:
     #...
 ```
 
-### Verificando memória disponível (Ubuntu)
+## Verificando memória disponível (Ubuntu)
 Formas de verificando memória disponível para configuração de limites do docker:
   - a) ```$ free -m```
   - b) ```$ htop``` (```$ sudo apt install htop```)
@@ -95,7 +95,7 @@ Formas de verificando memória disponível para configuração de limites do doc
   - d) ```$ vmstat -s```
 
 
-### Restaurar backup (mysqldump files)
+## Restaurar backup (mysqldump files)
 **Cenário:**
 Volume do docker compartilhando diretório com arquivos dump (*.sql)
 ```$ ~/provision```
@@ -107,9 +107,44 @@ importando arquivos:
 ```$ cd ~/docker-mysql/provision/```
 ```$ find . -name '*.sql' | awk '{ print "source",$0 }' | mysql --batch -u root -p <database_name>```
 
-### SSH - subindo arquivos dump
+## SSH - subindo arquivos dump
 
 ```scp remote_user@remote_host:~/provision/ /path/to/local/provision```
 
-### Referências
+---
+## Otimizar restore de tabela com mais de 5 milhões de linhas
+Quando se trata de carregamento em massa de tabelas InnoDB, uma das configurações mais freqüentemente ignoradas para desabilitar é [innodb_doublewrite](https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_doublewrite).
+
+Cada vez que uma página de 16K é gravada em uma tabela InnoDB ou log de transações, a página é gravada primeiro no buffer de gravação dupla. Tudo que você precisa fazer é desativá-lo, carregar seus dados e reativá-lo.
+
+1) Desativar desligamento rápido
+```sql
+SET GLOBAL innodb_fast_shutdown=0
+```
+
+2) Reinicie o mysql sem o buffer de gravação dupla
+
+```$ service mysql restart --innodb-doublewrite=0```
+
+3) Carregue os dados InnoDB
+
+```$ mysql -u user -p database_name < dump-table-file.sql```
+
+4) Reinicie o mysql
+
+```$ service mysql restart```
+
+*Antes de carregar os dados também pode desligar os indices da tabela caso o arquivo de dump não contenha instruções para isso:*
+
+```sql
+
+ALTER TABLE `my_table` DISABLE KEYS;
+-- Your insert statement
+ALTER TABLE `my_table` ENABLE KEYS;
+
+```
+
+---
+
+## Referências
 [docker config](https://docs.docker.com/config/containers/resource_constraints/) [docker engine](https://docs.docker.com/engine/install/linux-postinstall/#your-kernel-does-not-support-cgroup-swap-limit-capabilities) [memory ubuntu](https://vitux.com/5-ways-to-check-available-memory-in-ubuntu/)
