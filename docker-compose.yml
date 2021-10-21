@@ -25,6 +25,7 @@ services:
     volumes:
       - mysql8_data:/var/lib/mysql
       - ./custom:/etc/mysql/conf.d
+      - ./provision:/root/provision:rw
     logging:
       driver: 'json-file'
       options:
