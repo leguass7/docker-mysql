@@ -68,21 +68,36 @@ Por padrão, um contêiner não tem restrições de recursos e pode usar tanto d
   - ```$ sudo reboot```
 
 
-3) [docker-compose.yml](docker-compose.yml)
+3) Docker compose
+veja: [docker-compose.yml](docker-compose.yml)
 
-```yaml
-deploy:
-  resources:
-    limits:
-      cpus: '0.92'
-      memory: 1920M #server com 2Gb de RAM
-    reservations: #desnecessárias para servidor dedicado
-      cpus: '0.5'
-      memory: 1G
-    
+**Exemplo:**
+
+```yml
+version: '3.7'
+
+services:
+  mysql8:
+    # ...
+    deploy:
+      resources:
+        limits:
+          cpus: '0.92'
+          memory: 1128M  #server com 2Gb de RAM
+    #...
 ```
 
-```sdsd```
+### Restaurar backup (mysqldump files)
+**Cenário:**
+Volume do docker compartilhando diretório com arquivos dump (*.sql)
+```$ ~/provision```
+
+ou copiando arquivos para volume compartilhado
+```$ mv ~/provision/*.sql ~/docker-mysql/provision/```
+
+importando arquivos:
+```$ cd ~/docker-mysql/provision/```
+```$ find . -name '*.sql' | awk '{ print "source",$0 }' | mysql --batch -u root -p <database_name>```
 
 ### Referências
 [docker config](https://docs.docker.com/config/containers/resource_constraints/)
