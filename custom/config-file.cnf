@@ -15,7 +15,7 @@ innodb_file_per_table           = 1
 innodb_flush_log_at_trx_commit  = 0
 innodb_flush_method             = O_DIRECT
 innodb_log_buffer_size          = 16M
-innodb_log_file_size            = 256M
+innodb_log_file_size            = 128M
 innodb_stats_on_metadata        = 0
 
 #innodb_temp_data_file_path     = ibtmp1:64M:autoextend:max:20G # Control the maximum size for the ibtmp1 file
